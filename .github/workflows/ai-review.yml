@@ -18,7 +18,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # ใส่ทั้งสองช่องด้วย Key ของ Gemini ไปเลยครับ (หลอกระบบ)
-          OPENAI_API_KEY: ${{ secrets.GEMINI_API_KEY }} 
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }} 
           GOOGLE_AI_STUDIO_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         with:
           # บังคับใช้ Model ของ Google
