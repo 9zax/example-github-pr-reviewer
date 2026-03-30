@@ -14,3 +14,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        with:
+          system_message: |
+            คุณคือ Senior Full Stack Developer 
+            ช่วยตรวจสอบ PR นี้โดยเน้นหนักไปที่:
+            - ความปลอดภัย (Security) และการ Hardcode ความลับต่างๆ
+            - ตรวจสอบ Performance ของการใช้ React Hooks และ WebSockets
+            - ถ้ามีจุดไหนที่สามารถ Refactor ให้ Clean ได้ ให้แนะนำพร้อมตัวอย่างโค้ด
+            - ใช้ภาษาอังกฤษในการตอบกลับ
