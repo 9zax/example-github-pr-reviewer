@@ -1,4 +1,4 @@
-name: AI Code Review
+name: Gemini AI Code Review
 on:
   pull_request:
     types: [opened, synchronize]
@@ -6,11 +6,23 @@ on:
 jobs:
   review:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: AI Reviewer
-        uses: coderabbitai/ai-pr-reviewer@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Gemini PR Reviewer
+        # ใช้ Action ที่รองรับ Gemini โดยตรง ไม่ผ่าน OpenAI Library
+        uses: sshnaidm/gemini-code-review-action@v2 
+        with:
+          gemini-key: ${{ secrets.GEMINI_API_KEY }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          model: "Gemini 2.5 Flash" # หรือใช้ gemini-1.5-flash เพื่อความเร็ว
+          prompt: |
+            คุณคือ Senior Full Stack Developer 
+            ช่วยรีวิวโค้ดใน Pull Request นี้เป็นภาษาไทย
+            - เน้นตรวจเรื่อง Security และ Performance
+            - ถ้าเจอจุดที่ควรแก้ ให้แสดงตัวอย่างโค้ดที่ถูกต้อง
+            - ไม่ต้องตรวจเรื่อง formatting (เช่น space/tab)
