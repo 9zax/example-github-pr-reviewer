@@ -13,19 +13,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Gemini Code Review
-        uses: coderabbitai/ai-pr-reviewer@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # ใส่ทั้งสองช่องด้วย Key ของ Gemini ไปเลยครับ (หลอกระบบ)
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }} 
-          GOOGLE_AI_STUDIO_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      - name: Gemini PR Reviewer
+        # ใช้ Action ที่รองรับ Gemini โดยตรง ไม่ผ่าน OpenAI Library
+        uses: sshnaidm/gemini-code-review-action@v2 
         with:
-          # บังคับใช้ Model ของ Google
-          openai_api_model: "gemini-1.5-pro"
-          # ปิดฟีเจอร์บางอย่างที่อาจจะเรียกหา OpenAI Library
-          enable_summary: true
-          enable_review: true
-          system_message: |
-            คุณคือ Senior Developer ช่วยรีวิวโค้ดเป็นภาษาไทย 
-            เน้นตรวจสอบ Logic, Security และ Clean Code
+          gemini-key: ${{ secrets.GEMINI_API_KEY }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          model: "gemini-1.5-pro" # หรือใช้ gemini-1.5-flash เพื่อความเร็ว
+          prompt: |
+            คุณคือ Senior Full Stack Developer 
+            ช่วยรีวิวโค้ดใน Pull Request นี้เป็นภาษาไทย
+            - เน้นตรวจเรื่อง Security และ Performance
+            - ถ้าเจอจุดที่ควรแก้ ให้แสดงตัวอย่างโค้ดที่ถูกต้อง
+            - ไม่ต้องตรวจเรื่อง formatting (เช่น space/tab)
