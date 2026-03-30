@@ -1,4 +1,4 @@
-name: AI Code Review
+name: Gemini AI Code Review
 on:
   pull_request:
     types: [opened, synchronize]
@@ -6,19 +6,21 @@ on:
 jobs:
   review:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: AI Reviewer
-        uses: coderabbitai/ai-pr-reviewer@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Gemini Code Review
+        uses: google-gemini/ai-pr-reviewer@main # หรือ version ล่าสุดใน Marketplace
         with:
+          gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
+          # คุณสามารถใส่ Prompt ภาษาไทยตรงนี้ได้เลย
           system_message: |
-            คุณคือ Senior Full Stack Developer 
-            ช่วยตรวจสอบ PR นี้โดยเน้นหนักไปที่:
-            - ความปลอดภัย (Security) และการ Hardcode ความลับต่างๆ
-            - ตรวจสอบ Performance ของการใช้ React Hooks และ WebSockets
-            - ถ้ามีจุดไหนที่สามารถ Refactor ให้ Clean ได้ ให้แนะนำพร้อมตัวอย่างโค้ด
-            - ใช้ภาษาอังกฤษในการตอบกลับ
+            คุณคือ Senior Engineer 
+            - รีวิวโค้ดอย่างละเอียดและสุภาพเป็นภาษาไทย
+            - เน้นเรื่อง Performance, Security และ Clean Code
+            - หากมีจุดที่ต้องแก้ไข ให้แสดงตัวอย่างโค้ดที่ถูกต้องด้วย
+          model: "gemini-1.5-flash" # หรือ gemini-1.5-flash เพื่อความรวดเร็ว
