@@ -20,7 +20,7 @@ jobs:
           GOOGLE_AI_STUDIO_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         with:
           # ระบุ Model ที่ต้องการใช้
-          openai_api_model: "gemini-1.5-pro"
+          openai_api_model: "gemini-1.5-flash"
           # ใส่ Prompt ภาษาไทยที่คุณต้องการ
           system_message: |
             คุณคือ Senior Full Stack Developer 
