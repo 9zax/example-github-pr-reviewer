@@ -19,7 +19,7 @@ jobs:
         with:
           gemini-key: ${{ secrets.GEMINI_API_KEY }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          model: "gemini-3.1-pro-preview" # หรือใช้ gemini-1.5-flash เพื่อความเร็ว
+          model: "Gemini 2.5 Flash" # หรือใช้ gemini-1.5-flash เพื่อความเร็ว
           prompt: |
             คุณคือ Senior Full Stack Developer 
             ช่วยรีวิวโค้ดใน Pull Request นี้เป็นภาษาไทย
